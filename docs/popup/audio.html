@@ -1,0 +1,19 @@
+
+<audio id="audio" loop controls autoplay preload="auto" style="width:100%;">
+<!-- Flash fallback -->
+<embed id="single2" name="single2" src="player.swf" width="320" height="24" bgcolor="#000000" allowscriptaccess="always" allowfullscreen="true" flashvars="file=/output/0200239001603043412/58556803.mp3" title="">
+</audio>
+<hr/>
+<input id="pbSpeedEd" onchange="audio.playbackRate=this.value" style="width:50%" placeholder="Speed..." step=0.10 type="number"></input>
+<input type="file" accept="audio/*" onchange="previewFile()">
+<script>
+  function previewFile(){var e=document.querySelector("audio"),r=document.querySelector("input[type=file]").files[0],n=new FileReader;n.onloadend=function(){l=n.result},r?n.readAsDataURL(r):l=""; single2.flashvars="file="+l; e.src = l}
+  var getParams = function (url) {var params = {};var parser = document.createElement('a');parser.href = url;var query = parser.search.substring(1);var vars = query.split('&');for (var i = 0; i < vars.length; i++) {var pair = vars[i].split('=');params[pair[0]] = decodeURIComponent(pair[1]);}return params;};
+  onload = function(){
+    audio = document.querySelector('audio')
+    resizeTo(335, 240)
+    audio.src = opener.text.value;
+    single2.flashvars = "file=" + opener.text.value;
+    opener.text.value=""
+  }
+</script>

@@ -1,0 +1,76 @@
+<script>
+function chkClosed(){
+    if(!opener || opener.closed == true){
+        close()
+    }
+    setTimeout(chkClosed, 500)
+}
+chkClosed()
+function fancyTimeFormat(duration)
+{   
+    // Hours, minutes and seconds
+    var hrs = ~~(duration / 3600);
+    var mins = ~~((duration % 3600) / 60);
+    var secs = ~~duration % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
+}
+function percents(value, co){
+    value = Math.round(value);
+    var ret = value / co;
+    ret *= 100;
+    ret = ret.toString();
+    ret += "%";
+    return ret
+}
+    function update() {
+	setTimeout(() => {
+         document.getElementById('range').max = video.duration;
+         document.getElementById('range').value = video.currentTime;
+         document.getElementById('rangeval').innerHTML  = fancyTimeFormat(Math.round(video.currentTime));
+         document.getElementById('rangeval').innerHTML += " / ";
+         document.getElementById('rangeval').innerHTML += fancyTimeFormat(Math.round(video.duration));
+         // console.log(range.value)
+         update();
+    }, 300)
+    }
+    function init(){
+    window.video = opener.document.getElementById('video');
+    update()
+    }
+    function previewFile() {
+      var preview = video;
+      var file    = document.querySelector('input[type=file]').files[0];
+      var reader  = new FileReader();
+    
+      reader.onloadend = function () {
+      preview.src = reader.result;
+     }
+    
+     if (file) {
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = "";
+     }
+    }
+    init()
+
+</script>
+<button id="playpause" type="button" onclick="opener.eval('if (video.paused || video.ended) video.play();else video.pause()')">Play/Pause</button>
+<button id="fullscreen" onclick="video.requestFullscreen()" type="button"><svg height="100%" version="1.1" viewBox="0 0 36 36" width=15><g class="ytp-fullscreen-button-corner-0"><use class="ytp-svg-shadow" xlink:href="#ytp-id-6"></use><path class="ytp-svg-fill" d="m 10,16 2,0 0,-4 4,0 0,-2 L 10,10 l 0,6 0,0 z" id="ytp-id-6"></path></g><g class="ytp-fullscreen-button-corner-1"><use class="ytp-svg-shadow" xlink:href="#ytp-id-7"></use><path class="ytp-svg-fill" d="m 20,10 0,2 4,0 0,4 2,0 L 26,10 l -6,0 0,0 z" id="ytp-id-7"></path></g><g class="ytp-fullscreen-button-corner-2"><use class="ytp-svg-shadow" xlink:href="#ytp-id-8"></use><path class="ytp-svg-fill" d="m 24,24 -4,0 0,2 L 26,26 l 0,-6 -2,0 0,4 0,0 z" id="ytp-id-8"></path></g><g class="ytp-fullscreen-button-corner-3"><use class="ytp-svg-shadow" xlink:href="#ytp-id-9"></use><path class="ytp-svg-fill" d="M 12,20 10,20 10,26 l 6,0 0,-2 -4,0 0,-4 0,0 z" id="ytp-id-9"></path></g></svg></button>
+<button id="mute" type="button" onclick="opener.eval('video.muted = !video.muted;')">Mute/Unmute</button>
+<br/>
+<input id="range" type="range" style="width:calc(100% - 130px);" onchange="video.currentTime = this.value" id="range" min=0 value=0></input>
+<span id="rangeval">--:--:--</span>
+<br/>
+<input type="file" accept="video/*" onchange="previewFile()">
+<br/>
