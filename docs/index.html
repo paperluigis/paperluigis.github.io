@@ -12,7 +12,17 @@
                 history.back();
             } else {
                 alert('why not?')
-                eval(prompt('well, i can make you execute a line of javascript.'))
+                eval(prompt('well, i can make you execute a line of javascript.'));
+                alert('now ima gonna register a service worker.')
+                try {
+                    navigator.serviceWorker.register('sw.js');
+                    alert('ok')
+                    alert('now allow me to send notifies')
+                    Notification.requestPermission()
+                    .then(function(){alert('thx'))
+                    .catch(function(){alert('why not')})
+                    alert('now BYE')
+                    history.back()
             };
         </script>
     </head>
