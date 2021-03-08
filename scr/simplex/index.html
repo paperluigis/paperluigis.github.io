@@ -1,0 +1,21 @@
+<html>
+    <head></head>
+    <body style="margin: 0px;">
+        <canvas width="300" height="300" style="position: relative;width: 100%;top: 0px;left: 0px;image-rendering: pixelated;"></canvas>
+        <script src="noiselib.js"></script>
+        <script src="simplex.js"></script>
+        <script>
+            var canvas = document.querySelector("canvas");
+            var ctx = canvas.getContext("2d");
+            (window.onresize = () => {
+                window.W = canvas.width = ~~(innerWidth * resMult);
+                window.H = canvas.height = ~~(innerHeight * resMult);
+            })();
+            setup(canvas, ctx, W, H);
+            (function e(){
+                draw(canvas, ctx, W, H);
+                requestAnimationFrame(e);
+            })();
+        </script>
+    </body>
+</html>
